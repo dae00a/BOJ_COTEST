@@ -3,9 +3,8 @@
 using namespace std;
 
 int N, M;
-int arr[9];
-int new_arr[10];
-bool check[10];
+int arr[8], new_arr[8];
+bool check[8];
 
 void permutation(int cnt);
 
