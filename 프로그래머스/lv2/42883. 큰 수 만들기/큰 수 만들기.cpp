@@ -3,26 +3,21 @@ using namespace std;
 
 string solution(string number, int k) {
     string answer = "";
-    int n = number.length();
-    stack<char> st;
-    
-    for(int i = 0; i < n; i++) {
-        while(!st.empty() && k) {
-            if(st.top() >= number[i])
-                break;
-            k--;
-            st.pop();
+    int biggest = 0;
+    int idx = 0;
+
+    for (int i = 0; i < number.length(); ++i) {
+        if (biggest < number[i]) {
+            biggest = number[i];
+            idx = i;
         }
-        st.push(number[i]);
-    }
-    
-    while(!st.empty()) {
-        if(n - k < st.size()){
-            st.pop();
-            continue;
+
+        if (i == k) {
+            i = idx;
+            k++;
+            answer.push_back(biggest);
+            biggest = 0;
         }
-        answer = st.top() + answer;
-        st.pop();    
     }
     
     return answer;
