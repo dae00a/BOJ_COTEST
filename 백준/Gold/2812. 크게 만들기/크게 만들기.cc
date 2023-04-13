@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-void solution(string number, int k);
+void solution(string &number, int k);
 
 int main() {
     cin.tie(nullptr);
@@ -9,31 +9,37 @@ int main() {
     
     int N, K;
     string s;
-   
-    cin >> N >> K;
-    cin >> s;
     
+    cin >> N >> K >> s;
     solution(s, K);
     
     return 0;
 }
 
-void solution(string number, int k) {
+void solution(string &number, int k) {
     string answer = "";
-    answer = number.substr(k); 
-    for(int i = k - 1; i >= 0; i--) {
-        int j = 0;
-        while(1) {
-            if(number[i] >= answer[j]) {
-                char temp = answer[j];
-                answer[j] = number[i];
-                number[i] = temp;
-                j++;
-            }
-            else
+    int n = number.length();
+    stack<char> st;
+
+    for(int i = 0; i < n; i++) {
+        while(!st.empty() && k) {
+            if(st.top() >= number[i])
                 break;
+            k--;
+            st.pop();
         }
+        st.push(number[i]);
     }
+    
+    while(k) {
+        st.pop();
+        k--;
+    }
+    while(!st.empty()) {
+        answer += st.top();
+        st.pop();    
+    }
+    reverse(answer.begin(), answer.end());
     
     cout << answer << "\n";
 }
