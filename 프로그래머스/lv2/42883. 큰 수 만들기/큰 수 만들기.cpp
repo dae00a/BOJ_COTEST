@@ -3,21 +3,19 @@ using namespace std;
 
 string solution(string number, int k) {
     string answer = "";
-    int biggest = 0;
-    int idx = 0;
-
-    for (int i = 0; i < number.length(); ++i) {
-        if (biggest < number[i]) {
-            biggest = number[i];
-            idx = i;
-        }
-
-        if (i == k) {
-            i = idx;
-            k++;
-            answer.push_back(biggest);
-            biggest = 0;
-        }
+    answer = number.substr(k); 
+    for(int i = k-1; i >=0; i--) {
+        int j = 0;
+        do{
+            if(number[i] >= answer[j]) {
+                char temp = answer[j];
+                answer[j] = number[i];
+                number[i] = temp;
+                j++;
+            }
+            else
+                break;
+        }while(1);
     }
     
     return answer;
