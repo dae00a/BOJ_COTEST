@@ -1,46 +1,39 @@
 #include <bits/stdc++.h>
 
+#define MAX_PLAYER 100000
+#define MAX_NUM 1000000
+
 using namespace std;
 
-int N;
-vector<pair<int, int>> player;
-map<int, int> score;
+int N, M;
+int player[MAX_PLAYER+1], score[MAX_NUM+1];
+bool card[MAX_NUM+1];
 
 int main(void) {
     cin.tie(nullptr);
     cin.sync_with_stdio(false);
 
     cin >> N;
-    player.push_back({0, 0});
-    for(int i = 1; i <= N; i++) {
+    for(int i = 0; i < N; i++) {
         int tmp;
         cin >> tmp;
-        player.push_back({tmp, 0});
-        score[tmp] = i;
+        player[i] = tmp;
+        card[tmp] = true;
+
+        M = max(M, tmp);
     }
 
-    for(int i = 1; i <= (int)player.size(); i++) {
-        int num = player[i].first;
-        
-        for(int j = 1; j <= sqrt(num); j++) {
-            if(!(num % j)) {
-                if(score[j]) {
-                    player[i].second--;
-                    player[score[j]].second++;
-                    if(j * j == num)
-                        continue;
-                }
-                if(score[num/j]) {
-                    player[i].second--;
-                    player[score[num/j]].second++;
-                }
+    for(int i = 0; i < N; i++) {
+        for(int j = player[i] * 2; j <= M; j += player[i]) {
+            if(card[j]) {
+                score[player[i]]++;
+                score[j]--;
             }
         }
     }
 
-    for(int i = 1; i < (int)player.size(); i++) {
-        cout << player[i].second << " ";
-    }
+    for(int i = 0; i < N; i++)
+        cout << score[player[i]] << " ";
     cout << "\n";
 
     return 0;
